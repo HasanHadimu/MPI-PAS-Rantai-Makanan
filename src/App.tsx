@@ -123,7 +123,7 @@ export default function App() {
       </main>
 
       <footer className="text-center text-xs text-slate-500 py-6 no-print relative">
-        © 2025 <span className="font-semibold text-emerald-700">Hasan Bashri Hadimu</span> — SMP Cendekia Ambon
+        © 2026 <span className="font-semibold text-emerald-700">Hasan Bashri Hadimu</span> — SMP Cendekia Ambon
       </footer>
     </div>
   );
