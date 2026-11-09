@@ -12,17 +12,6 @@
 
 ---
 
-## 👤 Identitas Penyusun
-
-| | |
-|---|---|
-| **Nama** | Hasan Bashri Hadimu |
-| **Instansi** | SMP Cendekia Ambon |
-| **Kegiatan** | BIMTEK Digitalisasi Pembelajaran |
-| **Tugas** | LK 3 — Project Rantai Makanan (IPAS MPI) |
-| **Tahun** | 2025 |
-
----
 
 ## 📖 Tentang Media
 
