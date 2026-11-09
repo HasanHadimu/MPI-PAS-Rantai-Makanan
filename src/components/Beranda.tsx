@@ -5,7 +5,7 @@ import { staggerContainer, staggerItem, cardHover } from '../lib/motion';
 import {
   FaBook, FaClipboardList, FaGamepad, FaBullseye,
   FaUser, FaRocket,
-  FaSeedling, FaBug,
+  FaBug,
   GiFrog, GiSnake, GiEagleHead, GiWheat,
 } from '../lib/icons';
 
@@ -105,7 +105,7 @@ export default function Beranda({ onStart }: Props) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, type: 'spring' }}
             >
-              Mata Pelajaran IPA · Kelas VII SMP
+              Mata Pelajaran IPAS · Kelas 4 SD
             </motion.p>
           </div>
         </div>

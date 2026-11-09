@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { IconType } from 'react-icons';
+import type { DragEvent } from 'react';
 import {
   FaRedo, FaSearch, FaCheck, FaCheckCircle, FaTrophy, FaGamepad, FaArrowRight,
-  FaSeedling, FaBug,
-  GiFrog, GiSnake, GiEagleHead, GiMushroomGills, GiWheat, GiSpiderWeb,
+  FaBug,
+  GiFrog, GiSnake, GiMushroomGills, GiWheat, GiSpiderWeb,
 } from '../lib/icons';
 
 /* ============ GAME 1: DRAG & DROP ============ */
@@ -57,6 +58,11 @@ function DragDropGame() {
     setWrongSlot(null);
   };
 
+  const handleDragStart = (e: DragEvent<HTMLButtonElement>, itemId: string) => {
+    e.dataTransfer.setData('text/plain', itemId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
     <motion.div
       className="bg-white rounded-2xl shadow-soft p-5 border border-slate-100"
@@ -81,6 +87,7 @@ function DragDropGame() {
         Tarik (atau klik) organisme lalu letakkan pada tingkat trofik yang tepat.
       </p>
 
+      {/* Pool */}
       <div className="flex flex-wrap items-center gap-2 min-h-[60px] p-3 rounded-xl bg-slate-100 mb-4">
         {pool.length === 0 ? (
           <span className="text-sm text-slate-400 inline-flex items-center gap-1.5">
@@ -91,29 +98,36 @@ function DragDropGame() {
           pool.map((it) => {
             const Icon = it.icon;
             return (
-              <motion.button
+              /* motion.div membungkus agar layoutId + animasi hover tetap ada.
+                 <button> native di dalamnya memegang draggable + onDragStart HTML5. */
+              <motion.div
                 key={it.id}
                 layoutId={`item-${it.id}`}
-                draggable
-                onDragStart={(e) => e.dataTransfer.setData('text/plain', it.id)}
-                onClick={() => setSelected(selected === it.id ? null : it.id)}
                 whileHover={{ scale: 1.06, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl font-semibold text-sm border-2 cursor-grab active:cursor-grabbing ${
-                  selected === it.id
-                    ? 'bg-emerald-600 text-white border-emerald-700 shadow-lg'
-                    : 'bg-white border-slate-300 hover:border-emerald-400'
-                }`}
               >
-                <Icon className={`w-4 h-4 ${selected === it.id ? 'text-white' : it.color}`} />
-                {it.label}
-              </motion.button>
+                <button
+                  type="button"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, it.id)}
+                  onClick={() => setSelected(selected === it.id ? null : it.id)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl font-semibold text-sm border-2 cursor-grab active:cursor-grabbing ${
+                    selected === it.id
+                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-lg'
+                      : 'bg-white border-slate-300 hover:border-emerald-400'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${selected === it.id ? 'text-white' : it.color}`} />
+                  {it.label}
+                </button>
+              </motion.div>
             );
           })
         )}
       </div>
 
+      {/* Slots */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {SLOTS.map((s) => {
           const itemId = placed[s.id];
@@ -123,8 +137,8 @@ function DragDropGame() {
             <motion.div
               key={s.id}
               layout
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
+              onDragOver={(e: DragEvent<HTMLDivElement>) => e.preventDefault()}
+              onDrop={(e: DragEvent<HTMLDivElement>) => {
                 e.preventDefault();
                 tryPlace(s.id, e.dataTransfer.getData('text/plain'));
               }}
